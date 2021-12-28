@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import * as authorActions from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
 
-class CoursesPage extends React.Component {
-  componentDidMount() {
-    const { courses, authors, loadCourses, loadAuthors } = this.props;
-
+function ManageCoursePage({ courses, authors, loadCourses, loadAuthors }) {
+  useEffect(() => {
     if (courses.length === 0) {
       loadCourses().catch((error) => alert("Loading courses failed " + error));
     }
@@ -15,18 +13,16 @@ class CoursesPage extends React.Component {
     if (authors.length === 0) {
       loadAuthors().catch((error) => alert("Loading authors failed " + error));
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <>
-        <h2>Manage Course</h2>
-      </>
-    );
-  }
+  return (
+    <>
+      <h2>Manage Course</h2>
+    </>
+  );
 }
 
-CoursesPage.propTypes = {
+ManageCoursePage.propTypes = {
   courses: PropTypes.array.isRequired,
   authors: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
@@ -45,4 +41,4 @@ const mapDispatchToProps = {
   loadAuthors: authorActions.loadAuthors,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
